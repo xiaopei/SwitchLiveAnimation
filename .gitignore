@@ -1,0 +1,17 @@
+.gradle
+/local.properties
+.idea
+.DS_Store
+/build
+/captures
+app/app.iml
+SwitchLiveAnimation.iml
+SwitchLiveAnimation-Android.iml
+gradlew.bat
+gradlew
+gitlab
+gitlab.pub
+/gradle
+app/src/androidTest
+app/src/test
+*.apk
