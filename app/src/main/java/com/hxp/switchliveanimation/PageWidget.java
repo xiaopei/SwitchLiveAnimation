@@ -55,6 +55,11 @@ public class PageWidget extends View {
 		init(context);
 	}
 
+	@Override
+	public boolean onTouchEvent(MotionEvent event) {
+		return doTouchEvent(event);
+	}
+
 	public void setTouchable(boolean touchable) {
 		this.touchable = touchable;
 	}

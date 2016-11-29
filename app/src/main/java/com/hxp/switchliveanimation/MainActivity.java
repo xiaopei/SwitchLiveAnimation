@@ -3,7 +3,6 @@ package com.hxp.switchliveanimation;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.text.TextUtils;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
@@ -13,7 +12,6 @@ import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
     private PageWidget mPageWidget;
-    private static final String LIVE_ID = "live_id";
     private int liveId;
     private TextView liveName;
     private boolean inited;
@@ -34,12 +32,7 @@ public class MainActivity extends AppCompatActivity {
         initLive();
         mPageWidget = new PageWidget(MainActivity.this);
         mPageWidget.setBitmapsRes( R.mipmap.scroll_down,R.mipmap.scroll_up);
-        mPageWidget.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent e) {
-                return mPageWidget.doTouchEvent(e);
-            }
-        });
+
         mPageWidget.setBottomPaneListener(new PageWidget.OnScrolledListener() {
             @Override
             public void onScrolled() {
