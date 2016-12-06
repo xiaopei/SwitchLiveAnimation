@@ -1,0 +1,7 @@
+# SwitchLiveAnimation
+可直接用于项目的直播切换动画
+
+setBitmapsRes（）设置上下动画面板
+setBottomPaneListener（）下面板开始滑动时请求下个直播间数据
+setTopPaneListener（）上面板开始滑动时请求上个直播间数据
+setAnimationEndListener（）面板滑动动画结束后更新UI或者跳转至对应的直播间
