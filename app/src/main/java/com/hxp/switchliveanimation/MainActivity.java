@@ -1,10 +1,8 @@
 package com.hxp.switchliveanimation;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.MotionEvent;
-import android.view.View;
+import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.RelativeLayout;
@@ -30,40 +28,38 @@ public class MainActivity extends AppCompatActivity {
     private void initView() {
         liveName = (TextView)findViewById(R.id.live_name);
         initLive();
-        mPageWidget = new PageWidget(MainActivity.this);
-        mPageWidget.setBitmapsRes( R.mipmap.scroll_down,R.mipmap.scroll_up);
+        mPageWidget = new PageWidget(MainActivity.this){
 
-        mPageWidget.setBottomPaneListener(new PageWidget.OnScrolledListener() {
             @Override
-            public void onScrolled() {
+            public void onTopPaneMoved() {
+                loadPreLive();
+            }
+
+            @Override
+            public void onBottomPaneMoved() {
                 loadNextLive();
             }
-        });
-        mPageWidget.setAnimationEndListener(new PageWidget.OnScrolledListener() {
+
             @Override
-            public void onScrolled() {
+            public void onAnimationEnd() {
                 changeLive();
                 mPageWidget.dismissPane();
             }
-        });
-        mPageWidget.setTopPaneListener(new PageWidget.OnScrolledListener() {
-            @Override
-            public void onScrolled() {
-                loadPreLive();
-            }
-        });
-
+        };
+        mPageWidget.setBitmapsRes( R.mipmap.scroll_down,R.mipmap.scroll_up);
         ((RelativeLayout)findViewById(R.id.activity_main)).addView(mPageWidget);
     }
 
     public void loadPreLive(){
         liveId--;
+        Log.e("live","loadPreLive"+liveId);
         //TODO:request last live id
         inited = false;
     }
 
     public void loadNextLive(){
         liveId++;
+        Log.e("live","loadNextLive"+liveId);
         //TODO:request next live id
         inited = false;
     }
@@ -79,5 +75,4 @@ public class MainActivity extends AppCompatActivity {
             initLive();
         }
     }
-
 }

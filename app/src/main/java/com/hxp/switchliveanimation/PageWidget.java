@@ -15,7 +15,7 @@ import android.view.View;
 import android.widget.Scroller;
 
 
-public class PageWidget extends View {
+public abstract class PageWidget extends View {
 	private int nWidth = 1080;
 	private int nHeight = 1920;
 	public float downX = 0;
@@ -29,7 +29,6 @@ public class PageWidget extends View {
 	final int BOTTOM = -1;
 	final int NONE = 0;
 	int direction = 0;
-	OnScrolledListener topPaneListener,bottomPaneListener,animationEndListener;
 	boolean touchable;
 	long time;
 	int type ;
@@ -38,6 +37,10 @@ public class PageWidget extends View {
 		super(context);
 		init(context);
 	}
+
+	public abstract void onTopPaneMoved();
+	public abstract void onBottomPaneMoved();
+	public abstract void onAnimationEnd();
 
 	private void init(Context context) {
 		this.context = context;
@@ -62,17 +65,6 @@ public class PageWidget extends View {
 
 	public void setTouchable(boolean touchable) {
 		this.touchable = touchable;
-	}
-
-	public void setTopPaneListener(OnScrolledListener topPaneListener) {
-		this.topPaneListener = topPaneListener;
-	}
-
-	public void setBottomPaneListener(OnScrolledListener bottomPaneListener) {
-		this.bottomPaneListener = bottomPaneListener;
-	}
-	public void setAnimationEndListener(OnScrolledListener animationEndListener) {
-		this.animationEndListener = animationEndListener;
 	}
 
 	public void dismissPane(){
@@ -108,15 +100,11 @@ public class PageWidget extends View {
 					case NONE:
 						if (nTouch.y > downY + 5) {
 							direction = BOTTOM;
-							if(topPaneListener != null){
-								topPaneListener.onScrolled();
-							}
+							onTopPaneMoved();
 						}
 						if (nTouch.y < downY - 5) {
 							direction = TOP;
-							if(bottomPaneListener != null){
-								bottomPaneListener.onScrolled();
-							}
+							onBottomPaneMoved();
 						}
 						break;
 					case TOP:
@@ -218,9 +206,7 @@ public class PageWidget extends View {
 						break;
 					case 3:
 					case 1:
-						if(animationEndListener != null){
-							animationEndListener.onScrolled();
-						}
+						onAnimationEnd();
 						break;
 				}
 				direction = NONE;
@@ -232,9 +218,5 @@ public class PageWidget extends View {
 		if (!nScroller.isFinished()) {
 			nScroller.abortAnimation();
 		}
-	}
-
-	public static interface OnScrolledListener{
-		void onScrolled();
 	}
 }
